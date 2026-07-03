@@ -102,9 +102,11 @@ function initHero() {
         <a class="hero__offer-btn" href="${s.href || "#"}">자세히 보기 ${ARROW}</a>`;
       offerEl.setAttribute("aria-hidden", "false");
       heroEl.classList.add("is-offer");
+      // reveal is handled by CSS transition (delayed) so it doesn't depend on rAF
     } else {
       offerEl.setAttribute("aria-hidden", "true");
       heroEl.classList.remove("is-offer");
+      revealTitle(); // replay the big masked-title reveal on the brand slide
     }
   }
 
@@ -780,18 +782,14 @@ function initHeroScroll() {
    AMBASSADOR'S FAMILY — scroll-linked horizontal flow
 ------------------------------------------------------------ */
 function initFamilyFlow() {
-  if (reduced || window.matchMedia("(max-width:900px)").matches) return;
   const track = document.getElementById("famTrack");
   const section = document.getElementById("ambassadorFamily");
-  if (!track || !section) return;
-  const overflow = () => Math.max(0, track.scrollWidth - window.innerWidth + 80);
-  gsap.fromTo(track, { x: 0 }, {
-    x: () => -overflow(), ease: "none",
-    scrollTrigger: {
-      trigger: section, start: "top 80%", end: "bottom bottom",
-      scrub: 0.6, invalidateOnRefresh: true,
-    },
-  });
+  if (!track || !section || reduced) return;
+  // seamless continuous flow (independent of page scroll)
+  track.innerHTML += track.innerHTML;
+  const tween = gsap.fromTo(track, { xPercent: 0 }, { xPercent: -50, duration: 64, ease: "none", repeat: -1 });
+  section.addEventListener("mouseenter", () => tween.pause());
+  section.addEventListener("mouseleave", () => tween.resume());
 }
 
 /* ------------------------------------------------------------
@@ -813,5 +811,4 @@ window.addEventListener("DOMContentLoaded", () => {
   initQuick();
   initHeroScroll();
   initFamilyFlow();
-  revealTitle();
 });

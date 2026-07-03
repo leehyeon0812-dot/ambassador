@@ -90,12 +90,9 @@ img{ display:block; }
 }
 .gnb.is-scrolled::before{ opacity:0; }
 
-.gnb__logo{ display:flex; align-items:center; justify-content:center; gap:14px; }
-/* real Ambassador lockup: A-arch mark (white) + AMBASSADOR HOTELS & SUITES type */
-.gnb__logo-mark{ height:36px; width:auto; display:block; filter:drop-shadow(0 2px 8px rgba(0,0,0,.5)); transition:height .4s var(--ease); }
-.gnb__logo-type{ height:16px; width:auto; display:block; filter:brightness(1.6) drop-shadow(0 1px 4px rgba(0,0,0,.55)); transition:height .4s var(--ease); }
-.gnb.is-scrolled .gnb__logo-mark{ height:30px; }
-.gnb.is-scrolled .gnb__logo-type{ height:13px; }
+.gnb__logo{ display:flex; align-items:center; justify-content:center; }
+.gnb__logo-img{ height:28px; width:auto; display:block; filter:drop-shadow(0 2px 8px rgba(0,0,0,.55)); transition:height .4s var(--ease); }
+.gnb.is-scrolled .gnb__logo-img{ height:24px; }
 
 /* language / currency dropdowns */
 .gnb__dd{ position:relative; }
@@ -466,7 +463,7 @@ img{ display:block; }
 .sc__closed{ display:none; font-size:16px; color:#c0392b; margin-top:8px; }
 .sc.is-closed .sc__timer{ display:none; }
 .sc.is-closed .sc__closed{ display:block; }
-.sc__media{ flex:none; width:575px; align-self:stretch; margin:0; border-radius:0; overflow:hidden; }
+.sc__media{ flex:none; width:575px; height:575px; align-self:center; margin:0; border-radius:0; overflow:hidden; }
 .sc__media img{ width:100%; height:100%; object-fit:cover; }
 
 @media (max-width:960px){
@@ -574,7 +571,7 @@ img{ display:block; }
 .ft__logo--emblem{ height:40px; }
 .ft__logo--amb{ height:20px; }
 .ft__logo-div{ width:1px; height:34px; background:rgba(255,255,255,.22); flex:0 0 auto; }
-.ft__wordmark{ font-family:var(--serif); font-weight:400; font-size:22px; letter-spacing:.3em; color:#fff; text-transform:uppercase; white-space:nowrap; }
+.ft__wordmark{ height:56px; width:auto; display:block; }
 .ft__social{ display:flex; gap:18px; margin-top:6px; }
 .ft__social a{ color:rgba(255,255,255,.82); transition:color .25s; display:inline-flex; }
 .ft__social a:hover{ color:#fff; }
@@ -651,10 +648,16 @@ img{ display:block; }
   width:640px; max-width:calc(100% - 96px); z-index:5;
   display:flex; flex-direction:column; align-items:center; gap:32px;
   text-align:center; color:#fff; pointer-events:none;
-  opacity:0; visibility:hidden; transition:opacity .8s var(--ease), visibility .8s;
+  /* delayed reveal so the offer text doesn't pop in early over the outgoing slide */
+  opacity:0; visibility:hidden;
+  transition:opacity .85s var(--ease) .4s, visibility .85s .4s;
 }
 .hero.is-offer .hero__offer{ opacity:1; visibility:visible; pointer-events:auto; }
-.hero__offer-group{ display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
+.hero__offer-group{
+  display:flex; flex-direction:column; align-items:center; gap:8px; width:100%;
+  transform:translateY(18px); transition:transform 1s var(--ease) .45s;
+}
+.hero.is-offer .hero__offer-group{ transform:translateY(0); }
 .hero__offer-title{
   font-family:var(--serif); font-weight:300; text-transform:capitalize;
   font-size:clamp(40px,4.7vw,68px); line-height:1.2; letter-spacing:-0.01em;
@@ -766,10 +769,8 @@ img{ display:block; }
 
 .fam__track{
   display:flex; gap:16px; align-items:flex-start;
-  padding:0 80px 20px; overflow:visible; will-change:transform;
-  scrollbar-width:none;
+  width:max-content; overflow:visible; will-change:transform;
 }
-.fam__track::-webkit-scrollbar{ display:none; }
 .fam-card{ flex:0 0 auto; width:400px; cursor:pointer; }
 .fam-card__img{ width:100%; overflow:hidden; border-radius:4px; }
 .fam-card__img img{ width:100%; height:100%; object-fit:cover; transition:transform .9s var(--ease); }
@@ -779,7 +780,6 @@ img{ display:block; }
 
 @media (max-width:900px){
   .fam__head{ flex-direction:column; gap:20px; }
-  .fam__track{ padding:0 24px 20px; }
   .fam-card{ width:280px; }
 }
 
