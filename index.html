@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>THE AMBASSADOR — Where heritage welcomes you</title>
 
   <!-- Fonts: PP Museum / PP Neue Montreal loaded via @font-face in style.css.
        Pretendard (CDN) provides Korean glyph fallback. -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=9" />
 </head>
 <body>
 
@@ -66,14 +69,7 @@
     <div class="hero__dim-bottom"></div>
 
     <div class="hero__content">
-      <!-- big masked title (slide 1 — brand) -->
-      <h1 class="hero__title" id="heroTitle">
-        <span class="line" data-align="left">Ambassador.</span>
-        <span class="line line--it" data-align="center">Where heritage</span>
-        <span class="line" data-align="right">Welcomes you.</span>
-      </h1>
-
-      <!-- offer-style content (slides 2+) — injected by JS -->
+      <!-- offer-style content — injected by JS -->
       <div class="hero__offer" id="heroOffer" aria-hidden="true"></div>
 
       <!-- progress controls -->
@@ -103,7 +99,10 @@
             <span class="booking__label">인원 선택</span>
             <span class="booking__value" id="bkGuests">객실 1 / 성인 2</span>
           </button>
-          <button class="booking__search">검색</button>
+          <button class="booking__search">
+            <svg class="booking__search-ic" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="m20 20-3.4-3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span>검색</span>
+          </button>
         </div>
       </div>
     </div>
@@ -136,7 +135,7 @@
   <!-- ============== QUICK MENU (recently viewed room) ============== -->
   <aside class="quick" id="quickMenu" aria-label="빠른 메뉴">
     <a class="quick__card" href="#" id="quickCard">
-      <span class="quick__thumb"><img src="assets/img/hero-aman.jpg" alt="최근 본 객실" /></span>
+      <img class="quick__thumb-img" src="assets/img/quick-room.jpg" alt="" />
       <span class="quick__cap">
         <span class="quick__cap-kicker">최근 본 객실</span>
         <span class="quick__label">엠버서더 서울 풀만</span>
@@ -156,11 +155,17 @@
     </div>
   </aside>
 
+  <!-- ============== RESERVE FAB (docked, shows once the hero booking bar scrolls away) ============== -->
+  <button class="reserve-fab" id="reserveFab" aria-label="예약하기">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <span class="reserve-fab__label">예약하기</span>
+  </button>
+
   <!-- ============== WHERE TO GO NEXT ============== -->
   <section class="wtg" id="whereToGo">
     <div class="wtg__head">
       <div class="wtg__head-left">
-        <p class="wtg__kicker"><b>정지은님</b>에게 추천드립니다.</p>
+        <p class="wtg__kicker">당신과 비슷한 취향이 머문 곳</p>
         <h2 class="wtg__title">Where to Go Next</h2>
       </div>
       <p class="wtg__desc">계절이 머무는 순간, 앰버서더가 준비한 특별한 휴식.<br />미식부터 웰니스까지, 지금 가장 사랑받는 제안을 모았습니다.</p>
@@ -180,57 +185,93 @@
     </div>
   </section>
 
-  <!-- ============== SPECIAL OFFERS — stacking cards ============== -->
+  <!-- ============== GREAT DEALS AWAIT — trending keyword chips ============== -->
+  <section class="gd" id="greatDeals">
+    <div class="gd__head">
+      <div class="gd__head-left">
+        <p class="gd__kicker">지금 많이 찾는 키워드</p>
+        <h2 class="gd__title">Great Deals Await</h2>
+      </div>
+      <p class="gd__desc">당신의 다음 휴식을 위한 큐레이션.<br />인기 키워드와 함께 새로운 경험을 만나보세요.</p>
+    </div>
+
+    <div class="gd__rows">
+      <div class="gd__row">
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-chef.jpg?v=2" alt="" /></span><span class="gd__chip-label">후덕죽 마스터 쉐프</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-hair.jpg?v=2" alt="" /></span><span class="gd__chip-label">커리쉴 프리미엄 헤어케어</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-pool.jpg?v=2" alt="" /></span><span class="gd__chip-label">Summer 풀 개장</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-kings.jpg?v=2" alt="" /></span><span class="gd__chip-label">더킹스 디너 패키지</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-lounge.jpg?v=2" alt="" /></span><span class="gd__chip-label">더 라운지 앤 바 파르페</span></a>
+      </div>
+      <div class="gd__row">
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-review.jpg?v=2" alt="" /></span><span class="gd__chip-label">투숙 후기이벤트</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-grocery.jpg?v=2" alt="" /></span><span class="gd__chip-label">1955 그로서리아</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-milan.jpg?v=2" alt="" /></span><span class="gd__chip-label">Milan 학용품 세트</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-club.jpg?v=2" alt="" /></span><span class="gd__chip-label">1955 CLUB</span></a>
+        <a class="gd__chip" href="#"><span class="gd__chip-ic"><img src="assets/img/gd-hyundai.jpg?v=2" alt="" /></span><span class="gd__chip-label">현대카드 이벤트</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SPECIAL OFFERS — horizontal cover carousel ============== -->
   <section class="so" id="specialOffers">
     <div class="so__head">
       <div class="so__head-left">
-        <p class="so__kicker">다양한 구성의 패키지로 특별한 쉼을 선사합니다.</p>
+        <p class="so__kicker">최근 본 객실과 함께 즐기는 이벤트</p>
         <h2 class="so__title">Special Offers</h2>
       </div>
       <p class="so__desc">일상에서 벗어나 온전히 나를 위한 시간.<br />다이닝·스파·스위트까지, 앰버서더가 엄선한 시즌 패키지.</p>
     </div>
 
-    <div class="so__list" id="soList">
-      <article class="so-card">
-        <img class="so-card__bg" src="assets/img/so-1.jpg" alt="" />
-        <div class="so-card__inner">
-          <h3 class="so-card__title">The King's Members Weekday</h3>
-          <p class="so-card__sub">공식홈페이지 예약 시, 10% 할인 혜택 제공</p>
-          <span class="so-card__rule"></span>
-          <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
-          <a class="so-card__btn" href="#">자세히 보기</a>
-        </div>
-      </article>
-      <article class="so-card">
-        <img class="so-card__bg" src="assets/img/so-2.jpg" alt="" />
-        <div class="so-card__inner">
-          <h3 class="so-card__title">The King's Pour Moments</h3>
-          <p class="so-card__sub">주중 점심, 논알코올 스파클링과 함께하는 프리미엄 뷔페</p>
-          <span class="so-card__rule"></span>
-          <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
-          <a class="so-card__btn" href="#">자세히 보기 ↗</a>
-        </div>
-      </article>
-      <article class="so-card">
-        <img class="so-card__bg" src="assets/img/so-3.jpg" alt="" />
-        <div class="so-card__inner">
-          <h3 class="so-card__title">Pool House Terrace</h3>
-          <p class="so-card__sub">품격 있는 모임을 풀하우스 테라스에서 완성해보세요.</p>
-          <span class="so-card__rule"></span>
-          <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
-          <a class="so-card__btn" href="#">자세히 보기 ↗</a>
-        </div>
-      </article>
-      <article class="so-card">
-        <img class="so-card__bg" src="assets/img/so-4.jpg" alt="" />
-        <div class="so-card__inner">
-          <h3 class="so-card__title">Style's Lunch Buffet</h3>
-          <p class="so-card__sub">즐거운 주말을 보내실 수 있도록 주말 런치 뷔페를 새롭게 선보입니다.</p>
-          <span class="so-card__rule"></span>
-          <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
-          <a class="so-card__btn" href="#">자세히 보기 ↗</a>
-        </div>
-      </article>
+    <div class="so__pin" id="soPin">
+    <div class="so__carousel" id="soCarousel">
+      <div class="so__track" id="soTrack">
+        <article class="so-card">
+          <img class="so-card__bg" src="assets/img/so-1.jpg" alt="" />
+          <span class="so-card__scrim"></span>
+          <div class="so-card__inner">
+            <h3 class="so-card__title">The King's members weekday</h3>
+            <p class="so-card__sub">공식홈페이지 예약시, 10% 할인 혜택 제공</p>
+            <span class="so-card__rule"></span>
+            <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
+          </div>
+          <a class="so-card__btn" href="#" aria-label="자세히 보기"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </article>
+        <article class="so-card">
+          <img class="so-card__bg" src="assets/img/so-2.jpg" alt="" />
+          <span class="so-card__scrim"></span>
+          <div class="so-card__inner">
+            <h3 class="so-card__title">The King's Pour Moments</h3>
+            <p class="so-card__sub">주중 점심, 논알코올 스파클링과 함께하는 프리미엄 뷔페</p>
+            <span class="so-card__rule"></span>
+            <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
+          </div>
+          <a class="so-card__btn" href="#" aria-label="자세히 보기"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </article>
+        <article class="so-card">
+          <img class="so-card__bg" src="assets/img/so-3.jpg" alt="" />
+          <span class="so-card__scrim"></span>
+          <div class="so-card__inner">
+            <h3 class="so-card__title">Pool House Terrace</h3>
+            <p class="so-card__sub">품격 있는 모임을 풀하우스 테라스에서 완성해보세요.</p>
+            <span class="so-card__rule"></span>
+            <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
+          </div>
+          <a class="so-card__btn" href="#" aria-label="자세히 보기"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </article>
+        <article class="so-card">
+          <img class="so-card__bg" src="assets/img/so-4.jpg" alt="" />
+          <span class="so-card__scrim"></span>
+          <div class="so-card__inner">
+            <h3 class="so-card__title">Style's Lunch Buffet</h3>
+            <p class="so-card__sub">즐거운 주말을 보내실 수 있도록 주말 런치 뷔페를 새롭게 선보입니다.</p>
+            <span class="so-card__rule"></span>
+            <p class="so-card__date">2026.06.22 ~ 2026.07.14</p>
+          </div>
+          <a class="so-card__btn" href="#" aria-label="자세히 보기"><svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </article>
+      </div>
+    </div>
     </div>
   </section>
 
@@ -268,7 +309,7 @@
   <section class="fam" id="ambassadorFamily">
     <div class="fam__head">
       <div class="fam__head-left">
-        <p class="fam__kicker">다양한 구성의 패키지로 특별한 쉼을 선사합니다.</p>
+        <p class="fam__kicker">앰버서더의 다양한 호텔을 소개합니다.</p>
         <h2 class="fam__title">Ambassador's Family</h2>
       </div>
       <p class="fam__desc">계절이 머무는 순간, 앰버서더가 준비한 특별한 휴식.<br />지금 가장 사랑받는 제안을 한자리에 모았습니다.</p>
@@ -295,7 +336,6 @@
         <p class="af__kicker">머무는 시간을 더욱 특별하게 만드는 다채로운 시설과 서비스.</p>
         <h2 class="af__title">Signature Experiences</h2>
       </div>
-      <p class="af__desc">다이닝부터 웨딩, 웰니스까지.<br />앰버서더의 시그니처 경험을 만나보세요.</p>
     </div>
 
     <div class="af__scatter" id="afScatter">
@@ -416,6 +456,6 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=11"></script>
 </body>
 </html>

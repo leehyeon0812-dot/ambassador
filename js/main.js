@@ -9,19 +9,37 @@ const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
    HERO config — swap images / drop in a video here.
    For slide 1 you can later set: { video: 'assets/video/hero.mp4', image: 'poster.jpg' }
 ------------------------------------------------------------ */
+/* titlePos / infoPos are {x,y}/{left,top,width} in vw/vh, ported 1:1 from the
+   Figma "Hero Image_0N" frames (1920x1080 canvas) the designer laid out. */
 const SLIDES = [
-  // Slide 1 — brand masked title over background video (dining image = poster while it loads)
-  { type: "brand", video: "assets/video/hero-1.mp4", image: "assets/img/hero-dining.jpg" },
-  // Slide 2 — Golden Mango Hour (offer-style, centered card)
-  { type: "offer", image: "assets/img/hero-mango.png",
-    title: "Golden Mango Hour",
+  // Slide 1 — Golden Layers of Summer, 카이막 빙수 (node 955:425)
+  { image: "assets/img/hero-kaimak.jpg",
+    titleLines: ["Golden Layers", "of Summer"],
+    titlePos: [{ x: 36.59, y: 40.00 }, { x: 67.53, y: 52.13 }],
+    infoPos: { left: 18.44, top: 52.38, width: 33.33 },
+    sub: "쉐프가 만드는 카이막 빙수 세트를 즐겨보세요.",
+    date: "2026.06.22 ~ 2026.07.14", href: "#" },
+  // Slide 2 — Special Time / of Summer, festival mood (node 910:1851)
+  { image: "assets/img/hero-festival.jpg",
+    titleLines: ["Special Time", "of Summer"],
+    titlePos: [{ x: 43.41, y: 40.00 }, { x: 67.42, y: 52.04 }],
+    infoPos: { left: 18.54, top: 52.78, width: 33.33 },
+    sub: "뜨거운 여름, 페스티벌처럼 빛나는 특별한 순간을 앰버서더에서 즐겨보세요.",
+    date: "2026.06.22 ~ 2026.07.14", href: "#" },
+  // Slide 3 — Golden Mango Hour (node 910:1835)
+  { image: "assets/img/hero-mango.png",
+    titleLines: ["Golden", "Mango Hour"],
+    titlePos: [{ x: 42.58, y: 38.06 }, { x: 67.24, y: 50.10 }],
+    infoPos: { left: 17.08, top: 50.83, width: 33.33 },
     sub: "애플 망고 빙수와 함께 달콤하고 시원한 여름의 순간을 즐겨보세요.",
     date: "2026.06.22 ~ 2026.07.14", href: "#" },
-  // Slide 3 — Midnight Lounge (offer-style, centered card)
-  { type: "offer", image: "assets/img/hero-lounge.png",
-    title: "Midnight Lounge",
-    sub: "어둠이 내려앉은 순간, 라운지는 더 우아해집니다.",
-    date: "2026.06.22 ~ 2026.07.14", href: "#" },
+  // Slide 4 — Alcohol-Free Pool Party (node 934:1097)
+  { image: "assets/img/hero-poolparty.jpg",
+    titleLines: ["Alcohol-Free", "Pool party"],
+    titlePos: [{ x: 39.24, y: 40.00 }, { x: 67.24, y: 52.04 }],
+    infoPos: { left: 20.36, top: 52.78, width: 33.33 },
+    sub: "청량한 무알코올 칵테일과 신나는 비트로 채우는 여름밤 풀파티를 즐겨보세요.",
+    date: "2026.07.01 ~ 2026.08.31", href: "#" },
 ];
 const SLIDE_DURATION = 5; // seconds each slide is held while the bar fills
 
@@ -39,44 +57,7 @@ function initSmooth() {
 }
 
 /* ------------------------------------------------------------
-   Hero title — split into masked chars, reveal bottom→top
------------------------------------------------------------- */
-function splitTitle() {
-  document.querySelectorAll(".hero__title .line").forEach((line) => {
-    const text = line.textContent.trim();
-    line.textContent = "";
-    [...text].forEach((ch) => {
-      if (ch === " ") {
-        const sp = document.createElement("span");
-        sp.className = "space";
-        line.appendChild(sp);
-        return;
-      }
-      const span = document.createElement("span");
-      span.className = "char";
-      span.textContent = ch;
-      line.appendChild(span);
-    });
-  });
-}
-function revealTitle() {
-  const chars = document.querySelectorAll(".hero__title .char");
-  if (reduced) {
-    gsap.set(chars, { yPercent: 0, opacity: 1 });
-    return;
-  }
-  gsap.set(chars, { yPercent: 118 });
-  gsap.to(chars, {
-    yPercent: 0,
-    duration: 1.0,
-    ease: "power3.out",
-    stagger: 0.022,
-    delay: 0.35,
-  });
-}
-
-/* ------------------------------------------------------------
-   Hero slideshow — 7 slides, auto-filling progress bar
+   Hero slideshow — auto-filling progress bar
 ------------------------------------------------------------ */
 function initHero() {
   const slidesEl = document.getElementById("heroSlides");
@@ -85,48 +66,53 @@ function initHero() {
   const totalEl = document.getElementById("heroTotal");
   totalEl.textContent = SLIDES.length;
 
-  // foreground content swap: slide 1 = brand title, slides 2+ = offer card
   const heroEl = document.getElementById("hero");
   const offerEl = document.getElementById("heroOffer");
   const ARROW = `<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   function renderForeground(i) {
     const s = SLIDES[i];
-    if (s.type === "offer") {
-      offerEl.innerHTML = `
-        <div class="hero__offer-group">
-          <h2 class="hero__offer-title">${s.title}</h2>
-          <p class="hero__offer-sub">${s.sub}</p>
-          <span class="hero__offer-rule"></span>
-          <p class="hero__offer-date">${s.date}</p>
-        </div>
-        <a class="hero__offer-btn" href="${s.href || "#"}">자세히 보기 ${ARROW}</a>`;
-      offerEl.setAttribute("aria-hidden", "false");
-      heroEl.classList.add("is-offer");
-      // reveal is handled by CSS transition (delayed) so it doesn't depend on rAF
-    } else {
-      offerEl.setAttribute("aria-hidden", "true");
-      heroEl.classList.remove("is-offer");
-      revealTitle(); // replay the big masked-title reveal on the brand slide
+    const [p1, p2] = s.titlePos;
+    offerEl.innerHTML = `
+      <p class="hero__offer-line" style="left:${p1.x}vw; top:${p1.y}vh;">${s.titleLines[0]}</p>
+      <p class="hero__offer-line" style="left:${p2.x}vw; top:${p2.y}vh;">${s.titleLines[1]}</p>
+      <div class="hero__offer-info" style="left:${s.infoPos.left}vw; top:${s.infoPos.top}vh; width:${s.infoPos.width}vw;">
+        <p class="hero__offer-sub">${s.sub}</p>
+        <p class="hero__offer-date">${s.date}</p>
+        <a class="hero__offer-btn" href="${s.href || "#"}">자세히 보기 ${ARROW}</a>
+      </div>`;
+    offerEl.setAttribute("aria-hidden", "false");
+    heroEl.classList.add("is-offer");
+  }
+
+  // crossfades the outgoing text out, swaps it, then eases the incoming text
+  // in — timed to land inside the curtain wipe instead of hard-cutting.
+  function swapForeground(index, animate) {
+    gsap.killTweensOf(offerEl);
+    if (!animate || reduced) {
+      gsap.set(offerEl, { clearProps: "opacity,transform" });
+      renderForeground(index);
+      return;
     }
+    gsap.to(offerEl, {
+      opacity: 0, y: 14, duration: 0.4, ease: "power2.in",
+      onComplete: () => {
+        renderForeground(index);
+        gsap.fromTo(
+          offerEl,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }
+        );
+      },
+    });
   }
 
   const slideNodes = SLIDES.map((s) => {
     const slide = document.createElement("div");
     slide.className = "hero__slide";
-    if (s.video) {
-      const v = document.createElement("video");
-      v.src = s.video;
-      v.muted = true;
-      v.playsInline = true;
-      v.preload = "auto";
-      if (s.image) v.poster = s.image;
-      slide.appendChild(v);
-    } else {
-      const m = document.createElement("div");
-      m.className = "hero__slide-media";
-      m.style.backgroundImage = `url(${s.image})`;
-      slide.appendChild(m);
-    }
+    const m = document.createElement("div");
+    m.className = "hero__slide-media";
+    m.style.backgroundImage = `url(${s.image})`;
+    slide.appendChild(m);
     slidesEl.appendChild(slide);
     return slide;
   });
@@ -168,7 +154,7 @@ function initHero() {
       n.classList.toggle("is-prev", i === prevIndex);
     });
     indexEl.textContent = index + 1;
-    renderForeground(index);
+    swapForeground(index, prevIndex !== -1);
 
     // premium curtain wipe — incoming slide clip-reveals over the outgoing one
     // (no opacity fade, so it never flashes through the black page background)
@@ -184,15 +170,6 @@ function initHero() {
       });
     }
 
-    slideNodes.forEach((n, i) => {
-      const v = n.querySelector("video");
-      if (!v) return;
-      if (i === index) {
-        v.currentTime = 0;
-        v.play().catch(() => {});
-      } else v.pause();
-    });
-
     kenBurns(index);
 
     if (progressTween) progressTween.kill();
@@ -204,14 +181,10 @@ function initHero() {
       return; // no auto-advance when reduced motion
     }
 
-    let dur = SLIDE_DURATION;
-    const vid = slideNodes[index].querySelector("video");
-    if (vid && vid.duration) dur = vid.duration;
-
     progressTween = gsap.fromTo(
       fill,
       { scaleX: 0 },
-      { scaleX: 1, duration: dur, ease: "none", onComplete: () => goTo(current + 1) }
+      { scaleX: 1, duration: SLIDE_DURATION, ease: "none", onComplete: () => goTo(current + 1) }
     );
   }
 
@@ -399,24 +372,122 @@ function initWhereToGo() {
 }
 
 /* ------------------------------------------------------------
-   SPECIAL OFFERS — stacking cards
-   Cards are position:sticky (they stack). As each next card rises
-   to cover the current one, the covered card scales down + darkens.
+   GREAT DEALS AWAIT — trending keyword chips
+   Head rises in like the other section intros; both rows glide
+   in together (left→right stagger within each row), each chip
+   drifting slowly in from the right as it settles.
+------------------------------------------------------------ */
+function initGreatDeals() {
+  const root = document.getElementById("greatDeals");
+  if (!root || reduced) return;
+
+  gsap.from(root.querySelector(".gd__head"), {
+    y: 40, opacity: 0, duration: 1, ease: "power3.out",
+    scrollTrigger: { trigger: root, start: "top 75%" },
+  });
+
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: root.querySelector(".gd__rows"), start: "top 85%" },
+  });
+  gsap.utils.toArray(".gd__row").forEach((row) => {
+    const chips = row.querySelectorAll(".gd__chip");
+    tl.fromTo(chips, { x: 70, opacity: 0 }, {
+      x: 0, opacity: 1, duration: 1.6, ease: "power2.out", stagger: 0.22,
+    }, 0);
+  });
+}
+
+/* ------------------------------------------------------------
+   SPECIAL OFFERS — scroll-pinned cover carousel (skview.co.kr "분양단지"
+   reference: the section pins, and as you keep scrolling the next card
+   grows from 321px to 1192px and slides in from the right, covering the
+   current one — one card transition per scroll segment, fully scrubbed
+   to scroll position rather than click-stepped).
 ------------------------------------------------------------ */
 function initSpecialOffers() {
-  // Cards stack via position:sticky at identical size & brightness.
-  // The section title is pinned while cards 1–3 stack, then released so it
-  // scrolls up together with the last (4th) card.
-  const head = document.querySelector(".so__head");
-  const cards = gsap.utils.toArray(".so-card");
-  if (!head || cards.length < 2 || reduced) return;
-  ScrollTrigger.create({
-    trigger: head,
-    start: "top 100px",
-    endTrigger: cards[cards.length - 1],
-    end: "top 240px",
-    pin: head,
-    pinSpacing: false,
+  const pin = document.getElementById("soPin");
+  const carousel = document.getElementById("soCarousel");
+  const track = document.getElementById("soTrack");
+  if (!pin || !carousel || !track) return;
+  const cards = gsap.utils.toArray(".so-card", track);
+  const N = cards.length;
+  if (!N) return;
+
+  const scrims = cards.map((c) => c.querySelector(".so-card__scrim"));
+  const inners = cards.map((c) => c.querySelector(".so-card__inner"));
+  const btns = cards.map((c) => c.querySelector(".so-card__btn"));
+
+  const BASE_W = 321, ACTIVE_W = 1192, GAP = 16;
+  const clamp01 = (v) => Math.max(0, Math.min(1, v));
+
+  // width of card i given the transitioning pair (floor -> floor+1) and how
+  // far along that transition (frac) we are — the outgoing card shrinks
+  // while the incoming one grows, everything else stays at base width.
+  function widthAt(i, floor, frac) {
+    if (i === floor) return ACTIVE_W - (ACTIVE_W - BASE_W) * frac;
+    if (i === floor + 1) return BASE_W + (ACTIVE_W - BASE_W) * frac;
+    return BASE_W;
+  }
+
+  function centerFor(focalIndex, floor, frac) {
+    let before = 0;
+    for (let i = 0; i < focalIndex; i++) before += widthAt(i, floor, frac) + GAP;
+    const padLeft = parseFloat(getComputedStyle(carousel).paddingLeft) || 0;
+    return carousel.clientWidth / 2 - padLeft - (before + widthAt(focalIndex, floor, frac) / 2);
+  }
+
+  function render(pos) {
+    pos = clamp01(pos / (N - 1)) * (N - 1);
+    const floor = Math.min(Math.floor(pos), Math.max(N - 2, 0));
+    const frac = N > 1 ? pos - floor : 0;
+    const activeIndex = frac > 0.5 ? floor + 1 : floor;
+
+    cards.forEach((c, i) => {
+      gsap.set(c, { width: widthAt(i, floor, frac) });
+      c.classList.toggle("is-active", i === activeIndex);
+
+      let outAmt; // 0 = looks fully active, 1 = looks fully inactive
+      if (i === floor) outAmt = frac;
+      else if (i === floor + 1) outAmt = 1 - frac;
+      else outAmt = 1;
+
+      gsap.set(scrims[i], { opacity: outAmt });
+      gsap.set(inners[i], { opacity: 1 - outAmt });
+      gsap.set(btns[i], { opacity: 1 - outAmt });
+    });
+
+    const nextFocal = Math.min(floor + 1, N - 1);
+    const x1 = centerFor(floor, floor, frac);
+    const x2 = centerFor(nextFocal, floor, frac);
+    gsap.set(track, { x: gsap.utils.interpolate(x1, x2, frac) });
+  }
+
+  render(0);
+
+  const st = ScrollTrigger.create({
+    trigger: pin,
+    start: "top top",
+    end: () => "+=" + (N - 1) * window.innerHeight,
+    pin: true,
+    scrub: 0.4,
+    invalidateOnRefresh: true,
+    onUpdate: (self) => render(self.progress * (N - 1)),
+    onRefresh: (self) => render(self.progress * (N - 1)),
+  });
+
+  function goTo(index) {
+    index = Math.max(0, Math.min(N - 1, index));
+    const progress = N > 1 ? index / (N - 1) : 0;
+    const y = st.start + progress * (st.end - st.start);
+    if (window.lenis) window.lenis.scrollTo(y, { duration: 0.9 });
+    else window.scrollTo({ top: y, behavior: "smooth" });
+  }
+
+  cards.forEach((c, i) => {
+    c.addEventListener("click", () => {
+      const current = Math.round(st.progress * (N - 1));
+      if (i !== current) goTo(i);
+    });
   });
 }
 
@@ -732,33 +803,43 @@ function initGnbDropdowns() {
 
 /* ------------------------------------------------------------
    QUICK MENU — recently-viewed room dock (right edge)
-   First visit per session: reveal the card once, then tuck away.
+   Card + icon rail are always visible; only hidden once the
+   member bar ("정지은님, 안녕하세요") section starts entering view.
 ------------------------------------------------------------ */
 function initQuick() {
   const q = document.getElementById("quickMenu");
   if (!q) return;
-  const KEY = "amb_quick_seen";
-  const recentBtn = q.querySelector('[data-q="recent"]');
 
-  // first visit this session → auto-reveal the card, then collapse
-  if (!sessionStorage.getItem(KEY)) {
-    setTimeout(() => q.classList.add("is-open"), 900);
-    setTimeout(() => q.classList.remove("is-open"), 4200);
-    sessionStorage.setItem(KEY, "1");
-  }
-  recentBtn && recentBtn.addEventListener("click", () => q.classList.toggle("is-open"));
-  const card = q.querySelector("#quickCard");
-  card && card.addEventListener("mouseenter", () => q.classList.add("is-open"));
-
-  // hide the whole dock once we scroll past the hero
-  const hero = document.getElementById("hero");
-  if (hero) {
+  const memberBar = document.getElementById("memberBar");
+  if (memberBar) {
     ScrollTrigger.create({
-      trigger: hero, start: "bottom 40%",
+      trigger: memberBar, start: "top bottom",
       onEnter: () => q.classList.add("is-hidden"),
       onLeaveBack: () => q.classList.remove("is-hidden"),
     });
   }
+}
+
+/* ------------------------------------------------------------
+   RESERVE FAB — the hero booking bar scrolls away with the rest
+   of the hero content, so surface a docked shortcut back to it
+   once that happens.
+------------------------------------------------------------ */
+function initReserveFab() {
+  const fab = document.getElementById("reserveFab");
+  const hero = document.getElementById("hero");
+  if (!fab || !hero) return;
+
+  ScrollTrigger.create({
+    trigger: hero, start: "bottom 40%",
+    onEnter: () => fab.classList.add("is-visible"),
+    onLeaveBack: () => fab.classList.remove("is-visible"),
+  });
+
+  fab.addEventListener("click", () => {
+    if (window.lenis) window.lenis.scrollTo(0, { duration: 1.1 });
+    else window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 }
 
 /* ------------------------------------------------------------
@@ -797,10 +878,10 @@ function initFamilyFlow() {
 ------------------------------------------------------------ */
 window.addEventListener("DOMContentLoaded", () => {
   initSmooth();
-  splitTitle();
   initHero();
   initBooking();
   initWhereToGo();
+  initGreatDeals();
   initSpecialOffers();
   initSummerChill();
   initStory();
@@ -809,6 +890,7 @@ window.addEventListener("DOMContentLoaded", () => {
   initGnb();
   initGnbDropdowns();
   initQuick();
+  initReserveFab();
   initHeroScroll();
   initFamilyFlow();
 });
