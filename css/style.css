@@ -230,9 +230,6 @@ img{ display:block; }
 @keyframes bkIn{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
 
 .bk-list{ display:flex; flex-direction:column; max-height:288px; overflow-y:auto; }
-.bk-list::-webkit-scrollbar{ width:6px; }
-.bk-list::-webkit-scrollbar-thumb{ background:rgba(248,241,231,.25); border-radius:3px; }
-.bk-list::-webkit-scrollbar-track{ background:transparent; }
 .bk-list button{
   text-align:left; padding:11px 14px; font-size:14px; color:var(--cream);
   border-radius:3px; transition:background .2s;

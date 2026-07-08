@@ -391,8 +391,9 @@ function initGreatDeals() {
   });
   gsap.utils.toArray(".gd__row").forEach((row) => {
     const chips = row.querySelectorAll(".gd__chip");
+    // both rows sweep in together, left→right column by column — quick pace
     tl.fromTo(chips, { x: 70, opacity: 0 }, {
-      x: 0, opacity: 1, duration: 1.6, ease: "power2.out", stagger: 0.22,
+      x: 0, opacity: 1, duration: 1.0, ease: "power2.out", stagger: 0.13,
     }, 0);
   });
 }
