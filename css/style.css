@@ -400,7 +400,7 @@ img{ display:block; }
    from scroll progress in JS (gsap.set, no CSS transitions to fight the
    scrub), so a right-hand card visibly grows and slides left to cover
    the current one as you scroll. */
-.so__pin{ overflow:hidden; }
+.so__pin{ overflow:hidden; padding-top:56px; }
 .so__carousel{ max-width:1296px; margin:0 auto; padding:0 24px; overflow:hidden; }
 .so__track{ display:flex; gap:16px; }
 .so-card{
@@ -603,6 +603,7 @@ img{ display:block; }
 .ft__logo--accor{ height:50px; }
 .ft__logo--emblem{ height:40px; }
 .ft__logo--amb{ height:20px; }
+.ft__logo--brand{ height:52px; }
 .ft__logo-div{ width:1px; height:34px; background:rgba(255,255,255,.22); flex:0 0 auto; }
 .ft__wordmark{ height:56px; width:auto; display:block; }
 .ft__social{ display:flex; gap:18px; margin-top:6px; }
