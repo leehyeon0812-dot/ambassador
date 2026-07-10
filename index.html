@@ -12,7 +12,7 @@
        Pretendard (CDN) provides Korean glyph fallback. -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-  <link rel="stylesheet" href="css/style.css?v=9" />
+  <link rel="stylesheet" href="css/style.css?v=13" />
 </head>
 <body>
 
@@ -33,12 +33,15 @@
       </a>
 
       <ul class="gnb__menu gnb__menu--right">
-        <li><a href="#">로그인</a></li>
-        <li><a href="#">회원가입</a></li>
+        <li class="gnb__member">
+          <span>정지은님</span>
+          <span class="gnb__member-tier"><span class="gnb__member-star">✦</span>Gold</span>
+          <span>15%혜택</span>
+        </li>
         <li><a href="#">호텔찾기</a></li>
         <li><a href="#">예약조회</a></li>
         <li class="gnb__util gnb__dd" data-dd="lang">
-          <button class="gnb__dd-btn" type="button"><span class="gnb__dd-label">한국어</span><span class="gnb__dd-caret">▾</span></button>
+          <button class="gnb__dd-btn" type="button" aria-label="Language"><svg class="gnb__dd-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><span class="gnb__dd-caret">▾</span></button>
           <ul class="gnb__dd-menu">
             <li><button data-val="한국어" class="is-sel">한국어</button></li>
             <li><button data-val="English">English</button></li>
@@ -446,7 +449,7 @@
         <a href="#">이용약관</a>
         <a href="#">이메일무단수집거부</a>
       </div>
-      <p class="ft__copy">© 2025 Ambassador Hotels &amp; Resorts. All rights reserved.</p>
+      <p class="ft__copy">© 2026 Ambassador Hotels &amp; Resorts. All rights reserved.</p>
     </div>
   </footer>
 
@@ -454,6 +457,6 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/main.js?v=11"></script>
+  <script src="js/main.js?v=12"></script>
 </body>
 </html>

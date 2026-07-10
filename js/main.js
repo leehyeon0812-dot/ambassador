@@ -647,6 +647,7 @@ function initBooking() {
 
   const pop = document.createElement("div");
   pop.className = "bk-pop";
+  pop.setAttribute("data-lenis-prevent", ""); // let the hotel list scroll natively (Lenis ignores this subtree)
   document.body.appendChild(pop);
   // keep clicks inside the popover from bubbling to the document close-handler
   // (re-renders detach the clicked node, which would otherwise read as an outside click)
@@ -792,7 +793,7 @@ function initGnbDropdowns() {
     dd.querySelectorAll(".gnb__dd-menu button").forEach((b) =>
       b.addEventListener("click", (e) => {
         e.stopPropagation();
-        label.textContent = b.dataset.val;
+        if (label) label.textContent = b.dataset.val; // language uses icon only (no text label)
         dd.querySelectorAll(".gnb__dd-menu button").forEach((x) => x.classList.remove("is-sel"));
         b.classList.add("is-sel");
         dd.classList.remove("is-open");

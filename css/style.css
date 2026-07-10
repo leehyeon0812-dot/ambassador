@@ -97,6 +97,19 @@ img{ display:block; }
 /* language / currency dropdowns */
 .gnb__dd{ position:relative; }
 .gnb__dd-btn{ display:inline-flex; align-items:center; gap:6px; font-size:15px; font-weight:500; color:var(--cream); opacity:.9; transition:opacity .25s; }
+.gnb__dd-globe{ width:18px; height:18px; flex:none; display:block; }
+/* nudge the language button (globe + caret together) down to optically
+   center it with the adjacent text — language area only */
+.gnb__dd[data-dd="lang"] .gnb__dd-btn{ position:relative; top:2px; }
+
+/* logged-in membership pill */
+.gnb__member{
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(0,0,0,.3); padding:6px 14px; border-radius:25px;
+  font-size:15px; font-weight:600; color:var(--cream); white-space:nowrap;
+}
+.gnb__member-tier{ display:inline-flex; align-items:center; gap:3px; }
+.gnb__member-star{ font-size:12px; }
 .gnb__dd-btn:hover{ opacity:1; }
 .gnb__dd-caret{ font-size:12px; line-height:1; transition:transform .25s var(--ease); }
 .gnb__dd.is-open .gnb__dd-caret{ transform:rotate(180deg); }
