@@ -8,11 +8,13 @@
 ---
 
 ## 주요 섹션
-- **Hero** — 배경 영상 + 오퍼 슬라이드(커튼 와이프 전환)
+- **Hero** — 마케팅 배경 영상 + 오퍼 슬라이드(커튼 와이프 전환)
 - **멤버 바** — 회원 인사 · Gold 멤버십 게이지 · 포인트/쿠폰/무료숙박권
-- **퀵메뉴** — 최근 본 객실
-- **Where to Go Next / Special Offers / Summer Chill**
-- **Great Deals Await** — 인기 키워드 칩
+- **퀵메뉴** — 최근 본 객실, 보유 쿠폰, 빠른 예약
+- **Where to Go Next** - 고객의 맥락에 맞춘 초개인화 큐레이션
+- **Special Offers** - 패키지, 프로모션, 이벤트
+- **Summer Chill** - 얼리버드 상품
+- **Great Deals Await** — 인기 키워드 큐레이션
 - **Ambassador's Family** — 호텔 갤러리(연속 흐름)
 - **Signature Experiences** — 시설 소개(호버 크로스페이드)
 
